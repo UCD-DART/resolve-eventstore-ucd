@@ -1,17 +1,23 @@
-import getLog from './js/get-log';
+import getLog from "./js/get-log";
 
 const getSecret = async (pool, selector) => {
-  const log = getLog('secretsManager:getSecret');
+  const log = getLog("secretsManager:getSecret");
   log.debug(`retrieving secret value from the database`);
   const {
     databaseName,
     secretsTableName,
     escapeId,
     executeStatement,
-    escape
+    escape,
   } = pool; // TODO: refactor
 
-  if (!secretsTableName || !escapeId || !databaseName || !executeStatement || !escape) {
+  if (
+    !secretsTableName ||
+    !escapeId ||
+    !databaseName ||
+    !executeStatement ||
+    !escape
+  ) {
     const error = Error(`adapter pool was not initialized properly!`);
     log.error(error.message);
     log.verbose(error.stack || error.message);
@@ -31,26 +37,33 @@ const getSecret = async (pool, selector) => {
   log.verbose(sql);
   const rows = await executeStatement(sql);
   log.debug(`query executed, returning result`);
-  const {
-    secret
-  } = rows && rows.length ? rows[0] : {
-    secret: null
-  };
+  const { secret } =
+    rows && rows.length
+      ? rows[0]
+      : {
+          secret: null,
+        };
   return secret;
 };
 
 const setSecret = async (pool, selector, secret) => {
-  const log = getLog('secretsManager:setSecret');
+  const log = getLog("secretsManager:setSecret");
   log.debug(`setting secret value within database`);
   const {
     databaseName,
     secretsTableName,
     escape,
     escapeId,
-    executeStatement
+    executeStatement,
   } = pool; // TODO: refactor
 
-  if (!secretsTableName || !escapeId || !databaseName || !executeStatement || !escape) {
+  if (
+    !secretsTableName ||
+    !escapeId ||
+    !databaseName ||
+    !executeStatement ||
+    !escape
+  ) {
     const error = Error(`adapter pool was not initialized properly!`);
     log.error(error.message);
     log.verbose(error.stack || error.message);
@@ -78,17 +91,23 @@ const setSecret = async (pool, selector, secret) => {
 };
 
 const deleteSecret = async (pool, selector) => {
-  const log = getLog('secretsManager:deleteSecret');
+  const log = getLog("secretsManager:deleteSecret");
   log.debug(`removing secret from the database`);
   const {
     databaseName,
     secretsTableName,
     escapeId,
     escape,
-    executeStatement
+    executeStatement,
   } = pool; // TODO: refactor
 
-  if (!secretsTableName || !escapeId || !escape || !databaseName || !executeStatement) {
+  if (
+    !secretsTableName ||
+    !escapeId ||
+    !escape ||
+    !databaseName ||
+    !executeStatement
+  ) {
     const error = Error(`adapter pool was not initialized properly!`);
     log.error(error.message);
     log.verbose(error.stack || error.message);
@@ -107,15 +126,15 @@ const deleteSecret = async (pool, selector) => {
   log.debug(`query executed successfully`);
 };
 
-const getSecretsManager = pool => {
-  const log = getLog('getSecretsManager');
-  log.debug('building secrets manager');
+const getSecretsManager = (pool) => {
+  const log = getLog("getSecretsManager");
+  log.debug("building secrets manager");
   const manager = Object.freeze({
     getSecret: getSecret.bind(null, pool),
     setSecret: setSecret.bind(null, pool),
-    deleteSecret: deleteSecret.bind(null, pool)
+    deleteSecret: deleteSecret.bind(null, pool),
   });
-  log.debug('secrets manager built');
+  log.debug("secrets manager built");
   return manager;
 };
 

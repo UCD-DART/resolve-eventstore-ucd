@@ -1,20 +1,31 @@
-import { EventstoreResourceAlreadyExistError } from 'resolve-eventstore-base';
-import { LONG_STRING_SQL_TYPE, LONG_NUMBER_SQL_TYPE, INT8_SQL_TYPE, JSON_SQL_TYPE, TEXT_SQL_TYPE, AGGREGATE_ID_SQL_TYPE } from './constants';
+import { EventstoreResourceAlreadyExistError } from "resolve-eventstore-base";
+import {
+  LONG_STRING_SQL_TYPE,
+  LONG_NUMBER_SQL_TYPE,
+  INT8_SQL_TYPE,
+  JSON_SQL_TYPE,
+  TEXT_SQL_TYPE,
+  AGGREGATE_ID_SQL_TYPE,
+} from "./constants";
 
 const init = async ({
   databaseName,
   eventsTableName,
   snapshotsTableName,
   executeStatement,
-  escapeId
+  escapeId,
 }) => {
   const databaseNameAsId = escapeId(databaseName);
   const eventsTableNameAsId = escapeId(eventsTableName);
   const threadsTableNameAsId = escapeId(`${eventsTableName}-threads`);
   const snapshotsTableNameAsId = escapeId(snapshotsTableName);
-  const aggregateIdAndVersionIndexName = escapeId(`${eventsTableName}-aggregateIdAndVersion`);
+  const aggregateIdAndVersionIndexName = escapeId(
+    `${eventsTableName}-aggregateIdAndVersion`
+  );
   const aggregateIndexName = escapeId(`${eventsTableName}-aggregateId`);
-  const aggregateVersionIndexName = escapeId(`${eventsTableName}-aggregateVersion`);
+  const aggregateVersionIndexName = escapeId(
+    `${eventsTableName}-aggregateVersion`
+  );
   const typeIndexName = escapeId(`${eventsTableName}-type`);
   const timestampIndexName = escapeId(`${eventsTableName}-timestamp`);
 
@@ -66,11 +77,15 @@ const init = async ({
       INSERT INTO ${databaseNameAsId}.${threadsTableNameAsId}(
         "threadId",
         "threadCounter"
-      ) VALUES ${Array.from(new Array(256)).map((_, index) => `(${index}, 0)`).join(',')}
+      ) VALUES ${Array.from(new Array(256))
+        .map((_, index) => `(${index}, 0)`)
+        .join(",")}
       ;`);
   } catch (error) {
-    if (error != null && `${error.code}` === '42P07') {
-      throw new EventstoreResourceAlreadyExistError(`Double-initialize storage-postgresql adapter via "${databaseName}" failed`);
+    if (error != null && `${error.code}` === "42P07") {
+      throw new EventstoreResourceAlreadyExistError(
+        `Double-initialize storage-postgresql adapter via "${databaseName}" failed`
+      );
     } else {
       throw error;
     }

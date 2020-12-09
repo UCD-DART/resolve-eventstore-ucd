@@ -1,16 +1,11 @@
-import { EventstoreResourceAlreadyExistError } from 'resolve-eventstore-base';
-import getLog from './js/get-log';
-import initEventStore from './js/init';
-import { AGGREGATE_ID_SQL_TYPE } from './js/constants';
+import { EventstoreResourceAlreadyExistError } from "resolve-eventstore-base";
+import getLog from "./js/get-log";
+import initEventStore from "./js/init";
+import { AGGREGATE_ID_SQL_TYPE } from "./js/constants";
 
-const initSecretsStore = async pool => {
-  const {
-    secretsTableName,
-    escapeId,
-    databaseName,
-    executeStatement
-  } = pool;
-  const log = getLog('initSecretsStore');
+const initSecretsStore = async (pool) => {
+  const { secretsTableName, escapeId, databaseName, executeStatement } = pool;
+  const log = getLog("initSecretsStore");
 
   if (!secretsTableName || !escapeId || !databaseName || !executeStatement) {
     const error = Error(`adapter pool was not initialized properly!`);
@@ -39,8 +34,10 @@ const initSecretsStore = async pool => {
     if (error) {
       let errorToThrow = error;
 
-      if (`${error.code}` === '42P07') {
-        errorToThrow = new EventstoreResourceAlreadyExistError(`duplicate initialization of the postgresql-serverless secrets store with the same parameters not allowed`);
+      if (`${error.code}` === "42P07") {
+        errorToThrow = new EventstoreResourceAlreadyExistError(
+          `duplicate initialization of the postgresql-serverless secrets store with the same parameters not allowed`
+        );
       }
 
       log.error(errorToThrow.message);
@@ -52,27 +49,31 @@ const initSecretsStore = async pool => {
   log.debug(`secrets store database tables are initialized`);
 };
 
-const init = async pool => {
-  const log = getLog('init');
-  log.debug('initializing databases');
+const init = async (pool) => {
+  const log = getLog("init");
+  log.debug("initializing databases");
   const {
     databaseName,
     eventsTableName,
     snapshotsTableName,
     executeStatement,
-    escapeId
+    escapeId,
   } = pool;
 
-  const createInitEventStorePromise = () => initEventStore({
-    databaseName,
-    eventsTableName,
-    snapshotsTableName,
-    executeStatement,
-    escapeId
-  });
+  const createInitEventStorePromise = () =>
+    initEventStore({
+      databaseName,
+      eventsTableName,
+      snapshotsTableName,
+      executeStatement,
+      escapeId,
+    });
 
-  const result = await Promise.all([createInitEventStorePromise(), initSecretsStore(pool)]);
-  log.debug('databases are initialized');
+  const result = await Promise.all([
+    createInitEventStorePromise(),
+    initSecretsStore(pool),
+  ]);
+  log.debug("databases are initialized");
   return result;
 };
 

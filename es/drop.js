@@ -1,17 +1,12 @@
-import { EOL } from 'os';
-import { EventstoreResourceNotExistError } from 'resolve-eventstore-base';
-import getLog from './js/get-log';
-import dropEventStore from './js/drop';
+import { EOL } from "os";
+import { EventstoreResourceNotExistError } from "resolve-eventstore-base";
+import getLog from "./js/get-log";
+import dropEventStore from "./js/drop";
 
-const dropSecretsStore = async pool => {
-  const log = getLog('dropSecretsStore');
+const dropSecretsStore = async (pool) => {
+  const log = getLog("dropSecretsStore");
   log.debug(`dropping secrets store database tables`);
-  const {
-    secretsTableName,
-    databaseName,
-    executeStatement,
-    escapeId
-  } = pool;
+  const { secretsTableName, databaseName, executeStatement, escapeId } = pool;
   log.verbose(`secretsTableName: ${secretsTableName}`);
 
   if (!secretsTableName || !escapeId || !databaseName || !executeStatement) {
@@ -27,7 +22,10 @@ const dropSecretsStore = async pool => {
   const databaseNameAsId = escapeId(databaseName);
   const secretsTableNameAsId = escapeId(secretsTableName);
   const globalIndexName = escapeId(`${secretsTableName}-global`);
-  const statements = [`DROP TABLE ${databaseNameAsId}.${secretsTableNameAsId}`, `DROP INDEX IF EXISTS ${databaseNameAsId}.${globalIndexName}`];
+  const statements = [
+    `DROP TABLE ${databaseNameAsId}.${secretsTableNameAsId}`,
+    `DROP INDEX IF EXISTS ${databaseNameAsId}.${globalIndexName}`,
+  ];
   const errors = [];
 
   for (const statement of statements) {
@@ -38,8 +36,10 @@ const dropSecretsStore = async pool => {
         log.error(error.message);
         log.verbose(error.stack);
 
-        if (`${error.code}` === '42P01') {
-          throw new EventstoreResourceNotExistError(`duplicate event store resource drop detected`);
+        if (`${error.code}` === "42P01") {
+          throw new EventstoreResourceNotExistError(
+            `duplicate event store resource drop detected`
+          );
         }
 
         errors.push(error);
@@ -48,29 +48,30 @@ const dropSecretsStore = async pool => {
   }
 
   if (errors.length > 0) {
-    throw new Error(errors.map(error => error.stack).join(EOL));
+    throw new Error(errors.map((error) => error.stack).join(EOL));
   }
 
   log.debug(`secrets store database tables and indices are dropped`);
 };
 
-const drop = async pool => {
-  const log = getLog('drop');
+const drop = async (pool) => {
+  const log = getLog("drop");
   const {
     databaseName,
     eventsTableName,
     snapshotsTableName,
     executeStatement,
-    escapeId
+    escapeId,
   } = pool;
 
-  const createDropEventStorePromise = () => dropEventStore({
-    databaseName,
-    eventsTableName,
-    snapshotsTableName,
-    executeStatement,
-    escapeId
-  });
+  const createDropEventStorePromise = () =>
+    dropEventStore({
+      databaseName,
+      eventsTableName,
+      snapshotsTableName,
+      executeStatement,
+      escapeId,
+    });
 
   log.debug(`dropping the event store`);
   await Promise.all([createDropEventStorePromise(), dropSecretsStore(pool)]);

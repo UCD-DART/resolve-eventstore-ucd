@@ -1,4 +1,4 @@
-import { EOL } from 'os';
+import { EOL } from "os";
 
 const executeStatement = async (pool, sql) => {
   const errors = [];
@@ -13,7 +13,7 @@ const executeStatement = async (pool, sql) => {
     connectionTimeoutMillis: 45000,
     idle_in_transaction_session_timeout: 45000,
     query_timeout: 45000,
-    statement_timeout: 45000
+    statement_timeout: 45000,
   });
 
   try {
@@ -33,15 +33,11 @@ const executeStatement = async (pool, sql) => {
 
   if (errors.length > 0) {
     const error = new Error();
-    error.message = errors.map(({
-      message
-    }) => message).join(EOL);
-    error.stack = errors.map(({
-      stack
-    }) => stack).join(EOL);
-    const errorCodes = new Set(errors.map(({
-      code
-    }) => code).filter(code => code != null));
+    error.message = errors.map(({ message }) => message).join(EOL);
+    error.stack = errors.map(({ stack }) => stack).join(EOL);
+    const errorCodes = new Set(
+      errors.map(({ code }) => code).filter((code) => code != null)
+    );
 
     if (errorCodes.size === 1) {
       error.code = [...errorCodes][0];

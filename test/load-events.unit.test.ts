@@ -34,7 +34,8 @@ test("loadEventsByTimestamp has correct filters", async () => {
   await loadEventsByTimestamp(pool, filter);
 
   // prettier-ignore
-  expect(pool.executeStatement).toHaveBeenCalledWith(`SELECT * FROM ${escapeId(pool.databaseName)}.${escapeId(pool.eventsTableName)}
+  expect(pool.executeStatement)
+    .toHaveBeenCalledWith(`SELECT * FROM ${escapeId(pool.databaseName)}.${escapeId(pool.eventsTableName)}
 WHERE "type" IN (${eventTypesExpanded}) AND "aggregateId" IN (${aggregateIdsExpanded}) AND "timestamp" >= ${filter.startTime} AND "timestamp" <= ${filter.finishTime}
 ORDER BY "timestamp" ASC, "threadCounter" ASC, "threadId" ASC
 LIMIT ${filter.limit}`)

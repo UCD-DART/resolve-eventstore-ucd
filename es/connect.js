@@ -1,24 +1,27 @@
-import getLog from './js/get-log';
+import getLog from "./js/get-log";
 
 const connect = async (pool, specific) => {
   var _pool$config;
 
-  const log = getLog('connect');
-  log.debug('configuring postgres client');
+  const log = getLog("connect");
+  log.debug("configuring postgres client");
   const {
     Postgres,
     escapeId,
     escape,
     fullJitter,
     executeStatement,
-    coercer
+    coercer,
   } = specific;
   const {
     databaseName,
-    eventsTableName = 'events',
-    snapshotsTableName = 'snapshots',
-    secretsTableName = 'secrets'
-  } = (_pool$config = pool.config) !== null && _pool$config !== void 0 ? _pool$config : {};
+    eventsTableName = "events",
+    snapshotsTableName = "snapshots",
+    secretsTableName = "secrets",
+  } =
+    (_pool$config = pool.config) !== null && _pool$config !== void 0
+      ? _pool$config
+      : {};
   Object.assign(pool, {
     databaseName,
     eventsTableName,
@@ -29,14 +32,14 @@ const connect = async (pool, specific) => {
     coercer,
     executeStatement: executeStatement.bind(null, pool),
     escapeId,
-    escape
+    escape,
   });
 
   if (pool.executeStatement != null) {
     await pool.executeStatement('SELECT 0 AS "defunct"');
   }
 
-  log.debug('connection to postgres databases established');
+  log.debug("connection to postgres databases established");
 };
 
 export default connect;

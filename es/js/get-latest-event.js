@@ -1,19 +1,17 @@
-const getLatestEvent = async ({
-  executeStatement,
-  escapeId,
-  escape,
-  eventsTableName,
-  databaseName,
-  shapeEvent
-}, {
-  eventTypes,
-  aggregateIds,
-  startTime,
-  finishTime
-}) => {
-  const injectString = value => `${escape(value)}`;
+const getLatestEvent = async (
+  {
+    executeStatement,
+    escapeId,
+    escape,
+    eventsTableName,
+    databaseName,
+    shapeEvent,
+  },
+  { eventTypes, aggregateIds, startTime, finishTime }
+) => {
+  const injectString = (value) => `${escape(value)}`;
 
-  const injectNumber = value => `${+value}`;
+  const injectNumber = (value) => `${+value}`;
 
   const databaseNameAsId = escapeId(databaseName);
   const eventsTableNameAsId = escapeId(eventsTableName);
@@ -24,7 +22,9 @@ const getLatestEvent = async ({
   }
 
   if (aggregateIds != null) {
-    queryConditions.push(`"aggregateId" IN (${aggregateIds.map(injectString)})`);
+    queryConditions.push(
+      `"aggregateId" IN (${aggregateIds.map(injectString)})`
+    );
   }
 
   if (startTime != null) {
@@ -35,7 +35,8 @@ const getLatestEvent = async ({
     queryConditions.push(`"timestamp" < ${injectNumber(finishTime)}`);
   }
 
-  const resultQueryCondition = queryConditions.length > 0 ? `WHERE ${queryConditions.join(' AND ')}` : '';
+  const resultQueryCondition =
+    queryConditions.length > 0 ? `WHERE ${queryConditions.join(" AND ")}` : "";
   const rows = await executeStatement(`SELECT * FROM ${databaseNameAsId}.${eventsTableNameAsId}
     ${resultQueryCondition}
     ORDER BY "timestamp" DESC

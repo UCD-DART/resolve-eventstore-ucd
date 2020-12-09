@@ -18,14 +18,17 @@
   "main": "./lib/index.js",
   "module": "./es/index.js",
   "scripts": {
+    "lint": "eslint . --ext=.js,.jsx,.ts,.tsx",
+    "lint:js": "eslint . --ext=.js,.jsx",
+    "prettier": "prettier --write \"**/**.{ts,tsx,js,json,babelrc}\"",
     "test": "jest --config=./jest.config.js --verbose",
     "testw": "jest --config=./jest.config.js --watchAll"
   },
   "dependencies": {
     "pg": "^8.2.1",
-    "resolve-core": "0.26.3",
-    "resolve-debug-levels": "0.26.3",
-    "resolve-eventstore-base": "0.26.3"
+    "resolve-core": "^0.26.3",
+    "resolve-debug-levels": "^0.26.3",
+    "resolve-eventstore-base": "^0.26.3"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
@@ -33,14 +36,25 @@
     "@babel/plugin-proposal-decorators": "^7.12.1",
     "@babel/plugin-transform-runtime": "^7.12.1",
     "@babel/preset-env": "^7.12.7",
-    "@babel/preset-react": "^7.12.7",
     "@babel/preset-typescript": "^7.12.7",
-    "@babel/runtime": "^7.9.6",
+    "@babel/runtime": "^7.12.5",
     "@types/jest": "^26.0.18",
     "@types/pg": "^7.14.3",
+    "@typescript-eslint/eslint-plugin": "^4.9.1",
+    "@typescript-eslint/parser": "^4.9.1",
+    "babel-eslint": "^10.1.0",
+    "babel-jest": "^26.6.3",
     "babel-plugin-transform-inline-environment-variables": "^0.4.3",
-    "jest": "26.0.1",
-    "ts-jest": "^26.1.0",
+    "eslint": "^7.15.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-flowtype": "^4.7.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-spellcheck": "^0.0.16",
+    "jest": "^26.6.3",
+    "prettier": "^2.2.1",
+    "ts-jest": "^26.4.4",
     "typescript": "^3.9.7"
   },
   "engines": {

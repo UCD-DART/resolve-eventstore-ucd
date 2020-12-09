@@ -1,4 +1,4 @@
-import { RESERVED_EVENT_SIZE } from './constants';
+import { RESERVED_EVENT_SIZE } from "./constants";
 
 const injectEvent = async function (pool, event) {
   const {
@@ -6,9 +6,14 @@ const injectEvent = async function (pool, event) {
     eventsTableName,
     executeStatement,
     escapeId,
-    escape
+    escape,
   } = pool;
-  const serializedEvent = [`${escape(event.aggregateId)},`, `${+event.aggregateVersion},`, `${escape(event.type)},`, escape(JSON.stringify(event.payload != null ? event.payload : null))].join('');
+  const serializedEvent = [
+    `${escape(event.aggregateId)},`,
+    `${+event.aggregateVersion},`,
+    `${escape(event.type)},`,
+    escape(JSON.stringify(event.payload != null ? event.payload : null)),
+  ].join("");
   const byteLength = Buffer.byteLength(serializedEvent) + RESERVED_EVENT_SIZE;
   const databaseNameAsId = escapeId(databaseName);
   const threadsTableAsId = escapeId(`${eventsTableName}-threads`);
@@ -31,7 +36,6 @@ const injectEvent = async function (pool, event) {
   if (missingFields.length > 0) {
     throw new Error(`The field ${missingFields.join(', ')} is required in ${JSON.stringify(event)}`);
   } // prettier-ignore
-
 
   await executeStatement(`
     WITH "cte" AS (
