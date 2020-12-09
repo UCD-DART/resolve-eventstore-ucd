@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/js/escape-id.js"],"names":["escapeId","str","String","replace"],"mappings":"AAAA,MAAMA,QAAQ,GAAIC,GAAD,IAAU,IAAGC,MAAM,CAACD,GAAD,CAAN,CAAYE,OAAZ,CAAoB,SAApB,EAA+B,MAA/B,CAAuC,GAArE;;AAEA,eAAeH,QAAf","sourcesContent":["const escapeId = (str) => `\"${String(str).replace(/([\"])/gi, '$1$1')}\"`\n\nexport default escapeId\n"],"file":"escape-id.js"}

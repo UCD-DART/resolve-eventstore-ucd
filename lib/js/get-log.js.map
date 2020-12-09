@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/js/get-log.js"],"names":["scope"],"mappings":";;;;;;;AAAA;;;;eAEgBA,KAAD,IAAW,iCAAQ,gCAA+BA,KAAM,EAA7C,C","sourcesContent":["import getLog from 'resolve-debug-levels'\n\nexport default (scope) => getLog(`resolve:event-store-postgres:${scope}`)\n"],"file":"get-log.js"}

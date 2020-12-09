@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/js/escape.js"],"names":["escape","str","String","replace"],"mappings":"AAAA,MAAMA,MAAM,GAAIC,GAAD,IAAU,IAAGC,MAAM,CAACD,GAAD,CAAN,CAAYE,OAAZ,CAAoB,SAApB,EAA+B,MAA/B,CAAuC,GAAnE;;AAEA,eAAeH,MAAf","sourcesContent":["const escape = (str) => `'${String(str).replace(/(['])/gi, '$1$1')}'`\n\nexport default escape\n"],"file":"escape.js"}

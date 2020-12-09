@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/js/dispose.js"],"names":["dispose"],"mappings":";;;;;;;AAAA,MAAMA,OAAO,GAAG,YAAY,CAAE,CAA9B;;eAEeA,O","sourcesContent":["const dispose = async () => {}\n\nexport default dispose\n"],"file":"dispose.js"}

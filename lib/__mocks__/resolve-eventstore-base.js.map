@@ -1,0 +1,1 @@
+{"version":3,"sources":["../../src/__mocks__/resolve-eventstore-base.ts"],"names":["jest","fn"],"mappings":";;;;;;;;;;;;;;;;;;;AAAA;;eAKeA,IAAI,CAACC,EAAL,E","sourcesContent":["export {\n  EventstoreResourceAlreadyExistError,\n  EventstoreResourceNotExistError,\n} from 'resolve-eventstore-base'\n\nexport default jest.fn()\n"],"file":"resolve-eventstore-base.js"}
