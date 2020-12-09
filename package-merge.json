@@ -2,12 +2,7 @@
   "name": "resolve-eventstore-ucd",
   "version": "0.26.3",
   "description": "An adapter reSolve uses to store events in PostgreSQL.",
-  "keywords": [
-    "cqrs",
-    "eventsourcing",
-    "es",
-    "ddd"
-  ],
+  "keywords": ["cqrs", "eventsourcing", "es", "ddd"],
   "homepage": "https://github.com/UCD-DART/resolve-eventstore-ucd#readme",
   "bugs": {
     "url": "https://github.com/UCD-DART/resolve-eventstore-ucd/issues"
@@ -22,26 +17,16 @@
     "testw": "jest --config=./jest.config.js --watchAll"
   },
   "dependencies": {
+    "@babel/runtime": "7.9.6",
     "pg": "^8.2.1",
     "resolve-core": "0.26.3",
     "resolve-debug-levels": "0.26.3",
     "resolve-eventstore-base": "0.26.3"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.9",
-    "@babel/plugin-proposal-class-properties": "^7.12.1",
-    "@babel/plugin-proposal-decorators": "^7.12.1",
-    "@babel/plugin-transform-runtime": "^7.12.1",
-    "@babel/preset-env": "^7.12.7",
-    "@babel/preset-react": "^7.12.7",
-    "@babel/preset-typescript": "^7.12.7",
-    "@babel/runtime": "^7.9.6",
-    "@types/jest": "^26.0.18",
     "@types/pg": "^7.14.3",
-    "babel-plugin-transform-inline-environment-variables": "^0.4.3",
     "jest": "26.0.1",
-    "ts-jest": "^26.1.0",
-    "typescript": "^3.9.7"
+    "ts-jest": "26.1.0"
   },
   "engines": {
     "node": ">=10.9"

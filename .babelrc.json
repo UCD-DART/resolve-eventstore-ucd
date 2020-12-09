@@ -1,0 +1,37 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "loose": false,
+        "targets": { "node": "8.10" },
+        "forceAllTransforms": false,
+        "modules": "commonjs"
+      }
+    ],
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    "@babel/plugin-proposal-class-properties",
+    [
+      "@babel/plugin-transform-runtime",
+      {
+        "corejs": false,
+        "helpers": false,
+        "regenerator": false,
+        "useESModules": false
+      }
+    ],
+    [
+      "transform-inline-environment-variables",
+      {
+        "include": [
+          "__RESOLVE_PACKAGES__",
+          "__RESOLVE_EXAMPLES__",
+          "__RESOLVE_VERSION__"
+        ]
+      }
+    ]
+  ]
+}
